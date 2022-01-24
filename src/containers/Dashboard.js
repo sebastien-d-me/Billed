@@ -94,7 +94,7 @@ export default class {
       $(`#open-bill${bill.id}`).css({ background: '#2A2B35' })
       $('.dashboard-right-container div').html(DashboardFormUI(bill))
       $('.vertical-navbar').css({ height: '150vh' })
-      this.counter ++
+      this.counter = 0;
     } else {
       $(`#open-bill${bill.id}`).css({ background: '#0D5AE5' })
 
@@ -102,7 +102,7 @@ export default class {
         <div id="big-billed-icon"> ${BigBilledIcon} </div>
       `)
       $('.vertical-navbar').css({ height: '120vh' })
-      this.counter ++
+      this.counter = 0;
     }
     $('#icon-eye-d').click(this.handleClickIconEye)
     $('#btn-accept-bill').click((e) => this.handleAcceptSubmit(e, bill))
@@ -136,12 +136,12 @@ export default class {
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)'})
       $(`#status-bills-container${this.index}`)
         .html(cards(filteredBills(bills, getStatus(this.index))))
-      this.counter ++
+      this.counter = 0;
     } else {
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)'})
       $(`#status-bills-container${this.index}`)
         .html("")
-      this.counter ++
+      this.counter = 0;
     }
 
     bills.forEach(bill => {

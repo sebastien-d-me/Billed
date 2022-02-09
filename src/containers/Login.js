@@ -1,3 +1,4 @@
+
 import { ROUTES_PATH } from '../constants/routes.js'
 export let PREVIOUS_LOCATION = ''
 
@@ -33,7 +34,7 @@ export default class Login {
         PREVIOUS_LOCATION = this.PREVIOUS_LOCATION
         this.document.body.style.backgroundColor="#fff"
       })
-    
+
   }
 
   handleSubmitAdmin = e => {
@@ -91,4 +92,4 @@ export default class Login {
       return null
     }
   }
-} 
+}

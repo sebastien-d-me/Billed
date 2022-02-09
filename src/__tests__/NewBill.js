@@ -76,7 +76,7 @@ describe("Given I am connected as an employee", () => {
 
     // Gère le POST d'un bill
     test("fetches bills from mock API POST", async () => {
-      localStorage.setItem("user", JSON.stringify({ type: "Admin", email: "a@a" }));
+      localStorage.setItem("user", JSON.stringify({ type: "Employee", email: "a@a" }));
       const root = document.createElement("div")
       root.setAttribute("id", "root")
       document.body.append(root)
@@ -93,7 +93,7 @@ describe("Given I am connected as an employee", () => {
             { value: localStorageMock }
         )
         window.localStorage.setItem("user", JSON.stringify({
-          type: "Admin",
+          type: "Employee",
           email: "a@a"
         }))
         const root = document.createElement("div")
@@ -129,25 +129,30 @@ describe("Given I am connected as an employee", () => {
           commentAdmin: "ok",
           email: "a@a",
           pct: 20,
-          file: new File(['img'], 'image.png', {type: 'image/png'})
+          file: new File(['image'], 'image.png', {type: 'image/png'}),
         }
 
+        const formNewBill = screen.getByTestId("form-new-bill")
+
+        newBillInit.billId = billData.id;
         const billVat = screen.getByTestId("vat");
-        const billFile = screen.getByTestId("file");
+        newBillInit.fileUrl = billData.fileUrl;
+        const billFile = screen.getByTestId('file');
+        newBillInit.fileName = billData.fileName;
 
         fireEvent.change(billVat, { target: { value: billData.vat} })
 
-        const formNewBill = screen.getByTestId("form-new-bill")
         const handleSubmit = jest.fn((e) => newBillInit.handleSubmit(e));
-        formNewBill.addEventListener("submit", handleSubmit);
+        formNewBill.addEventListener("submit", handleSubmit);     
 
-        await waitFor(() => { userEvent.upload(billFile, billData.file)})
-        expect(billFile.files[0]).toBeDefined()
-
+        await waitFor(() => {
+          userEvent.upload(billFile, billData.file)
+        });
+        
         fireEvent.submit(formNewBill);
 
         expect(handleSubmit).toHaveBeenCalled();
-
+        expect(billFile.files[0]).toBeDefined()
       })
     })
   })

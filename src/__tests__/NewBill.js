@@ -16,35 +16,6 @@ import { bills } from "../fixtures/bills.js"
 jest.mock("../app/store", () => mockStore)
 
 describe("Given I am connected as an employee", () => {
-  // Gère le changement de pièce jointe
-  describe("When I submit a new Bill", () => {
-    test("Then must change the file of the bill", async () => {
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname })
-      }
-
-      Object.defineProperty(window, "localStorage", { value: localStorageMock })
-      window.localStorage.setItem("user", JSON.stringify({
-        type: "Employee"
-      }))
-
-      const html = NewBillUI()
-      document.body.innerHTML = html
-
-      const newBillInit = new NewBill({
-        document, onNavigate, store: null, localStorage: window.localStorage
-      })
-
-      const file = screen.getByTestId("file")
-      expect(file).toBeTruthy()
-
-      const handleChangeFile = jest.fn((e) => newBillInit.handleChangeFile(e));
-      file.addEventListener("click", handleChangeFile);
-      userEvent.click(file)
-      expect(handleChangeFile).toHaveBeenCalled();
-    })
-  })
-
   // Gère l'action de sauvegarde d'un bill
   describe("When I submit a new Bill", () => {
     test("Then must save the bill", async () => {
@@ -107,6 +78,7 @@ describe("Given I am connected as an employee", () => {
         }
 
         Object.defineProperty(window, "localStorage", { value: localStorageMock })
+        Object.defineProperty(window, "location", { value: { hash: ROUTES_PATH['NewBill']} })
         window.localStorage.setItem("user", JSON.stringify({
           type: "Employee"
         }))
@@ -115,44 +87,29 @@ describe("Given I am connected as an employee", () => {
           document, onNavigate, store: mockStore, localStorage: window.localStorage
         })
 
-        const billData = {
-          id: "47qAXb6fIm2zOKkLzMro",
-          vat: "80",
-          fileUrl: "https://test.storage.tld/v0/b/billable-677b6.a…f-1.jpg?alt=media&token=c1640e12-a24b-4b11-ae52-529112e9602a",
-          status: "pending",
-          type: "Hôtel et logement",
-          commentary: "séminaire billed",
-          name: "encore",
-          fileName: "preview-facture-free-201801-pdf-1.jpg",
-          date: "2004-04-04",
-          amount: 400,
-          commentAdmin: "ok",
-          email: "a@a",
-          pct: 20,
-          file: new File(['image'], 'image.png', {type: 'image/png'}),
-        }
+        const file = new File(['image'], 'image.png', {type: 'image/png'});
+
+        const handleChangeFile = jest.fn((e) => newBillInit.handleChangeFile(e));
 
         const formNewBill = screen.getByTestId("form-new-bill")
 
-        newBillInit.billId = billData.id;
-        const billVat = screen.getByTestId("vat");
-        newBillInit.fileUrl = billData.fileUrl;
         const billFile = screen.getByTestId('file');
-        newBillInit.fileName = billData.fileName;
 
-        fireEvent.change(billVat, { target: { value: billData.vat} })
+        billFile.addEventListener("change", handleChangeFile);     
+
+        await waitFor(() => {
+          userEvent.upload(billFile, file)
+        })
+        expect(billFile.files[0].name).toBeDefined()
+
+        expect(handleChangeFile).toBeCalled()
+       
 
         const handleSubmit = jest.fn((e) => newBillInit.handleSubmit(e));
         formNewBill.addEventListener("submit", handleSubmit);     
-
-        await waitFor(() => {
-          userEvent.upload(billFile, billData.file)
-        });
-        
         fireEvent.submit(formNewBill);
-
         expect(handleSubmit).toHaveBeenCalled();
-        expect(billFile.files[0]).toBeDefined()
+
       })
     })
   })

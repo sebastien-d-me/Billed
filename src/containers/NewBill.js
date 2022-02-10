@@ -17,11 +17,11 @@ export default class NewBill {
   }
   handleChangeFile = e => {
     e.preventDefault()
-    const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
-    const filePath = e.target.value.split(/\\/g)
-    const fileName = filePath[filePath.length-1]
-    const champFile = this.document.querySelector(`input[data-testid="file"]`);
+    const file = e.target.files[0];
+    const fileName = e.target.files[0].name
     const fileFormat = fileName.substring(fileName.lastIndexOf("."))
+    const champFile = e.target
+
     if(fileFormat === ".jpg" || fileFormat === ".jpeg" || fileFormat === ".png") {
       champFile.setCustomValidity("");
       const formData = new FormData()

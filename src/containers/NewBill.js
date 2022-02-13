@@ -17,33 +17,36 @@ export default class NewBill {
   }
   handleChangeFile = e => {
     e.preventDefault()
-    const file = e.target.files[0];
+    /* On modifie la récupération de l'input select */
+    const file = e.target.files[0]
     const fileName = e.target.files[0].name
     const fileFormat = fileName.substring(fileName.lastIndexOf("."))
-    const champFile = e.target
+    const champFile = e.target;
 
+    /* Si le format est valide on enlève l'avertissement et on valide */
     if(fileFormat === ".jpg" || fileFormat === ".jpeg" || fileFormat === ".png") {
-      champFile.setCustomValidity("");
-      const formData = new FormData()
-      const email = JSON.parse(localStorage.getItem("user")).email
-      formData.append('file', file)
-      formData.append('email', email)
-      this.store
-        .bills()
-        .create({
-          data: formData,
-          headers: {
-            noContentType: true
-          }
-        })
-        .then(({fileUrl, key}) => {
-          console.log(fileUrl)
-          this.billId = key
-          this.fileUrl = fileUrl
-          this.fileName = fileName
-        }).catch(error => console.error(error))
+    champFile.setCustomValidity("")
+    const formData = new FormData()
+    const email = JSON.parse(localStorage.getItem("user")).email
+    formData.append('file', file)
+    formData.append('email', email)
+    this.store
+      .bills()
+      .create({
+        data: formData,
+        headers: {
+          noContentType: true
+        }
+      })
+      .then(({fileUrl, key}) => {
+        console.log(fileUrl)
+        this.billId = key
+        this.fileUrl = fileUrl
+        this.fileName = fileName
+      }).catch(error => console.error(error))
+    /* Si le format est invalide on indique le bon format */
     } else {
-      champFile.setCustomValidity("Le format doit être JPG, JPEG ou PNG");
+      champFile.setCustomValidity("Le format doit être JPG, JPEG ou PNG")
     }
   }
   handleSubmit = e => {

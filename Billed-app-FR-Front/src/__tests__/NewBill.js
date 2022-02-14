@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { fireEvent, screen, waitFor } from "@testing-library/dom";
+import { fireEvent, screen } from "@testing-library/dom";
 import NewBillUI from "../views/NewBillUI.js";
 import NewBill from "../containers/NewBill.js";
 import mockStore from "../__mocks__/store";
@@ -89,10 +89,8 @@ describe("Given I am connected as an employee", () => {
       const billFile = screen.getByTestId('file');
 
       billFile.addEventListener("change", handleChangeFile);     
-
-      await waitFor(() => {
-        userEvent.upload(billFile, file)
-      })
+      userEvent.upload(billFile, file)
+      
       expect(billFile.files[0].name).toBeDefined()
       expect(handleChangeFile).toBeCalled()
      

@@ -16,4 +16,4 @@ Ce projet est le n°9 du parcours [Développeur d'application - JavaScript React
 - Ecrire des tests d'intégration avec JavaScript
 
 ### Informations complémentaires
-- Soutenance à valider.
+- Soutenance validé le 22/02/2022.

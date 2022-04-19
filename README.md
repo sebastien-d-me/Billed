@@ -2,7 +2,7 @@
 ## Projet 9 - Débuggez et testez un SaaS RH
 ------------
 ### Description du projet
-Ce projet est le n°9 du parcours [Développeur d'application - JavaScript React](https://openclassrooms.com/fr/paths/516-developpeur-dapplication-javascript-react "Développeur d'application - JavaScript React") qui consiste à débugger et tester un SaaS RH.
+Ce projet est le n°9 du parcours [**Développeur Front-End**](https://openclassrooms.com/fr/paths/314-developpeur-front-end "Développeur Front-End") qui consiste à débugger et tester un SaaS RH.
 ### Cahiers des charges
 ##### Spécifications techniques
 1. Fixer les bugs.

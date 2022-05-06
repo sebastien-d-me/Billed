@@ -42,8 +42,7 @@ describe("Given I am connected as an employee", () => {
       expect(handleSubmit).toHaveBeenCalled();
     });
 
-    // Récupère et vérifie les bills
-    test("Then fetches bills from mock API POST", async () => {
+    test("Then show the new bill page", async () => {
       localStorage.setItem("user", JSON.stringify({ type: "Employee", email: "a@a" }));
       const root = document.createElement("div")
       root.setAttribute("id", "root")
@@ -55,29 +54,19 @@ describe("Given I am connected as an employee", () => {
     // Vérifie si un fichier est bien chargé
     test("Then verify the file bill", async() => {
       jest.spyOn(mockStore, "bills")
-      Object.defineProperty(
-          window,
-          "localStorage",
-          { value: localStorageMock }
-      )
-      window.localStorage.setItem("user", JSON.stringify({
-        type: "Employee",
-        email: "a@a"
-      }))
-      const root = document.createElement("div")
-      root.setAttribute("id", "root")
-      document.body.appendChild(root)
-      router()
 
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
-      }
+      }      
 
       Object.defineProperty(window, "localStorage", { value: localStorageMock })
       Object.defineProperty(window, "location", { value: { hash: ROUTES_PATH['NewBill']} })
       window.localStorage.setItem("user", JSON.stringify({
         type: "Employee"
       }))
+
+      const html = NewBillUI()
+      document.body.innerHTML = html
 
       const newBillInit = new NewBill({
         document, onNavigate, store: mockStore, localStorage: window.localStorage

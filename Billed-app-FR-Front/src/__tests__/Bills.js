@@ -100,8 +100,8 @@ describe("Given I am connected as an employee", () => {
 
 
   describe("When I navigate to Bills", () => {
-    // Vérifie que les bills sont bien récupérés
-    test("Then fetches bills from mock API GET", async () => {
+    // Vérifie que la page est bien chargé
+    test("Then the page show", async () => {
       const onNavigate = (pathname) => {
         document.body.innerHTML = ROUTES({ pathname })
       }
@@ -117,8 +117,7 @@ describe("Given I am connected as an employee", () => {
       expect(screen.getByText("Mes notes de frais")).toBeTruthy()
     })
   })
-
-
+  // Intégration
   describe("When an error occurs on API", () => {
     beforeEach(() => {
       jest.spyOn(mockStore, "bills")

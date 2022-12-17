@@ -1,3 +1,5 @@
+<meta property="og:image" content="https://raw.githubusercontent.com/sebastien-d-me/Billed/main/Logo.webp">
+
 # Formation Développeur Front-End
 ## Projet 9 - Débuggez et testez un SaaS RH
 ------------
